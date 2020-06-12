@@ -26,7 +26,7 @@
                                   <form action="{{route('customers.cart.destroy', $row['produk']->id)}}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit">
+                                    <button class="btn btn-sm btn-info" type="submit">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
                                   </form>
