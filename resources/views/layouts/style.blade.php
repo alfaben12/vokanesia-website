@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="{{ asset('upturn/css/font-awesome.min.css') }}">
+<link rel="stylesheet" href="{{ asset('upturn/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('upturn/css/animate.css') }}">
+<link rel="stylesheet" href="{{ asset('upturn/css/iconfont.css') }}">
+<link rel="stylesheet" href="{{ asset('upturn/css/magnific-popup.css') }}">
+<link rel="stylesheet" href="{{ asset('upturn/css/owl.carousel.min.css') }}">
+<link rel="stylesheet" href="{{ asset('upturn/css/owl.theme.default.min.css') }}">
+<link rel="stylesheet" href="{{ asset('upturn/css/rev-settings.css') }}">
+<link rel="stylesheet" href="{{ asset('upturn/css/plugins.css') }}">
+<link rel="stylesheet" href="{{ asset('upturn/css/style.css') }}">
+<link rel="stylesheet" href="{{ asset('upturn/css/responsive.css') }}">
+<link rel="stylesheet" href="{{ asset('upturn/css/slick.css') }}">
+<link rel="stylesheet" href="{{ asset('upturn/css/slick-theme.css') }}">
