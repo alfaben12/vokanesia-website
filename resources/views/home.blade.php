@@ -9,4 +9,7 @@
     <!-- clients reviews -->
     @include('_partials.homes.testimonials')
     <!-- end of client reviews -->
+    <!-- ebook reviews -->
+    @include('_partials.homes.ebooks')
+    <!-- end of ebook reviews -->
 @endsection

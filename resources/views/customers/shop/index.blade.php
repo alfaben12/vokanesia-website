@@ -106,8 +106,8 @@
                     </span>
                   </div>
                 </div><!-- .xs-single-product END -->
-              </div>
             @endforeach
+            </div>
           @else
             <div class="container text-center mb-5">
               <div class="alert alert-danger">

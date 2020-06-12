@@ -15,9 +15,7 @@ use App\Mail\Invoice;
 |
 */
 
-Route::get('/', function () {
-  return view('home');
-})->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/pages/{slug}','PageController@index')->name('page');
 
