@@ -20,9 +20,12 @@ class CartController extends Controller
     {
         $user = Auth::user();
         $order = Order::where(['customer_id' => $user->id])->orderBy('id', 'desc')->first();
-        if($order->status != 'pending'){
-            return redirect('/?message=payment_required');
+        if($order){
+            if($order->status != 'pending'){
+                return redirect('/?message=payment_required');
+            }
         }
+        
         $user = Auth::user();
         $get = Cart::where(['customer_id' => $user->id])->get();
         $data = [];

@@ -33,8 +33,10 @@ class PaymentController extends Controller
     {
         $user = Auth::user();
         $order = Order::where(['invoice' => strval($invoice), 'status' => 'pending', 'customer_id' => $user->id])->first();
-        if(!$order){
-            return redirect('/');
+        if($order){
+            if($order->status != 'pending'){
+                return redirect('/?message=payment_required');
+            }
         }
 
         $order = Order::where(['invoice' => strval($invoice), 'status' => 'pending', 'customer_id' => $user->id])->first();
