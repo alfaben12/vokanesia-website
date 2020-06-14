@@ -38,6 +38,7 @@ Route::group(['prefix' => 'auth'], function() {
 });
 
 Route::post('payment/notification', 'Customers\PaymentController@notification');
+Route::get('payment/{type}/{id}/{invoice}', 'Customers\PaymentController@accept_or_decline_payment');
 
 // Route Customers
 Route::group(['as'=>'customers.', 'prefix' => 'customers', 'middleware' => ['auth:web_customers']], function() {
@@ -84,6 +85,8 @@ Route::group(['as'=>'customers.', 'prefix' => 'customers', 'middleware' => ['aut
     Route::get('dashboard', 'Customers\DashboardController@index')->name('c.dashboards');
     Route::get('invoice/{id}', 'Customers\InvoiceController@index')->name('invoice');
     Route::group(['as' => 'payment.', 'prefix' => 'payment'], function() {
+      Route::get('/{invoice}', 'Customers\PaymentController@index');
+      Route::post('/confirm/{invoice}', 'Customers\PaymentController@uploadFilePayment');
       Route::post('pay', 'Customers\PaymentController@create');
       Route::post('check_coupon', 'Customers\PaymentController@checkCoupon');
       Route::get('error', 'Customers\PaymentController@error');

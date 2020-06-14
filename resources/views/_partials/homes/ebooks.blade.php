@@ -58,3 +58,35 @@
 <!-- .row .service-block-group END -->
     </div><!-- .container END -->
 </section><!-- end service info block section -->
+
+<!-- Button trigger modal -->
+<button type="button" style="display:none;" class="btn btn-primary" id="btn-payment-required" data-toggle="modal" data-target="#payment-required">
+  payment required
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="payment-required" tabindex="-1" role="dialog" aria-labelledby="payment-required-Title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="payment-required-Title">Pembayaran</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Pembayaran anda sedang tahap verifikasi Administrator, tunggu selesai verifikasi selesai.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+   if('{{ Request::get('message') }}' == 'payment_required'){
+      window.onload = function(){
+      document.getElementById("btn-payment-required").click();
+      }
+   }
+</script>
