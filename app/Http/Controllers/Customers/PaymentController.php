@@ -10,11 +10,16 @@ use App\Models\Cart;
 
 use Midtrans;
 
+use Validator;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\CustomerLibrary;
-
 use App\Models\Coupon;
+use League\Flysystem\Filesystem;
+use Illuminate\Support\Facades\Storage;
+use Telegram\Bot\Laravel\Facades\Telegram;
+use Telegram\Bot\FileUpload\InputFile;
+
 class PaymentController extends Controller
 {
 
@@ -22,6 +27,67 @@ class PaymentController extends Controller
     {
         Midtrans\Config::$isProduction = env('MIDTRANS_IS_PRODUCTION', false);
         Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY', '');
+    }
+
+    public function index($invoice)
+    {
+        $user = Auth::user();
+        $order = Order::where(['invoice' => strval($invoice), 'status' => 'pending', 'customer_id' => $user->id])->first();
+        if(!$order){
+            return redirect('/');
+        }
+
+        $order = Order::where(['invoice' => strval($invoice), 'status' => 'pending', 'customer_id' => $user->id])->first();
+
+        return view('customers.payment.index')->with([
+            'order' => $order
+        ]);
+    }
+
+    public function uploadFilePayment(Request $request, $invoice)
+    {
+        if(!$_FILES){
+            return response()->json([
+            'status' => 'fail',
+            ], 400);
+        }
+
+        $user = Auth::user();
+        $order = Order::where(['invoice' => strval($invoice), 'status' => 'pending', 'customer_id' => $user->id])->first();
+
+        if(!$order){
+            return response()->json([
+            'status' => 'fail',
+            ], 404);
+        }
+
+        $file = $request->file('file');
+        $destination_path = 'files';
+        $path = $request->file('file')->store('file_proof/'. date('F'). date('Y'), 'cloud_kilat');
+
+        $cloud_kilat_path = Storage::disk('cloud_kilat')->url($path);
+
+        Order::find($order->id)->update(['status' => 'waiting', 'file_proof' => $cloud_kilat_path]);
+
+        $url_arr[0]['text'] = 'Terima';
+        $url_arr[0]['url'] = env('APP_URL_TELEGRAM') .'payment/accept/'. $order->id .'/'. $order->invoice;
+        // $url_arr[0]['url'] = 'http://google.com';
+         
+        $url_arr[1]['text'] = 'Tolak';
+        $url_arr[1]['url'] = env('APP_URL_TELEGRAM') .'payment/decline/'. $order->id .'/'. $order->invoice;
+        // $url_arr[1]['url'] = 'http://google.com';
+
+        $response = Telegram::sendPhoto([
+            'chat_id' => '746433464', 
+            'photo' => InputFile::create($cloud_kilat_path, 'Bukti pembayaran'), 
+            'caption' => 'Total tagihan Invoice '. $order->invoice .' senilai Rp. '. $order->real_amount .',- menunggu verifikasi anda.',
+            'parse_mode' => 'html',
+            'reply_markup' => json_encode(['inline_keyboard' => [$url_arr]])
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+        ], 200);
     }
 
     private function createOrderDetails($data)
@@ -91,7 +157,8 @@ class PaymentController extends Controller
         
         try {
             // Get Snap Payment Page URL
-          $paymentUrl = Midtrans\Snap::createTransaction($params)->redirect_url;
+        //   $paymentUrl = Midtrans\Snap::createTransaction($params)->redirect_url;
+          $paymentUrl = url('customers/payment/'. $invoice);
           
           // Redirect to Snap Payment Page
           return response()->json([
@@ -163,6 +230,48 @@ class PaymentController extends Controller
             'status' => 'success',
             'message' => 'success'
         ], 200);
+    }
+
+    public function accept_or_decline_payment(Request $request, $type, $id, $invoice)
+    {
+        $getOrder = Order::where(['id' => $id, 'invoice' => $invoice])->first();
+        if($getOrder){
+            if($getOrder->status != 'pending'){
+                return response()->json([
+                    'status' => $getOrder->status,
+                    'message' => 'Invoice sudah di verifikasi pada '. $getOrder->updated_at,
+                ], 200);
+            }else{
+                if($type == 'accept')
+                {
+                    if($getOrder)
+                    {
+                        Order::find($getOrder->id)->update(['status' => 'success']);
+
+                        foreach($getOrder->getOrderDetails() as $row)
+                        {
+                            $cLibraryInput = array(
+                                'customer_id' => $row->customer_id,
+                                'produk_id' => $row->produk_id,
+                                'type' => $row->type
+                            );
+
+                            CustomerLibrary::firstOrCreate($cLibraryInput);
+                            Cart::where('produk_id', $row->produk_id)->delete();
+                        }
+                    }
+                }else if($type == 'decline')
+                {
+                    Order::find(['id' => $getOrder->id, 'invoice' => $invoice])->update(['status' => 'failed']);
+                }
+
+                return response()->json([
+                    'status' => $type,
+                    'message' => 'Invoice berhasil di verifikasi'
+                ], 200);
+            }
+        }
+
     }
     
 }
