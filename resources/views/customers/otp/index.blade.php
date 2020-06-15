@@ -14,7 +14,7 @@
       <div class="row">
         <div class="card mx-auto" style="width: 35rem;">
           <div class="col-lg-12 text-center py-5">
-            <p class="mb-0" style="font-weight: bolder"><b>Silahkan Masukkan Kode 6-Digit Yang Sudah Kami Kirimkan Via Whatsapp:</b></p>
+            <p class="mb-0" style="font-weight: bolder"><b>Silahkan Masukkan Kode 6-Digit Yang Sudah Kami Kirimkan Via Email:</b></p>
             <small id="message" style="color:red; display:none">Pin Yang Anda Masukkan Salah</small>
             <form action="#" id="otp_submit" method="post">
               <div class="col-12 mx-auto mt-3" id="pinwrapper"></div>
