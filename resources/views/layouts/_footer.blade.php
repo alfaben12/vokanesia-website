@@ -43,15 +43,15 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="copyright-text">
-                        <p>Copyright &copy; 2020 Vokanesia. All Right Reserved</p>
+                        <p>Copyright &copy; {{date('Y')}} Vokanesia. All Right Reserved</p>
                     </div><!-- .copyright-text END -->
                 </div>
                 <div class="col-md-6">
                     <ul class="social-list">
-                        <li><a href="https://www.facebook.com/vokanesia" class="facebook"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="https://www.instagram.com/vokanesia.id" class="instagram"><i class="fa fa-instagram"></i></a></li>
-                        <li><a href="https://twitter.com/vokanesia" class="twitter"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="https://www.youtube.com/channel/UCycepOpin1oi0tDET4Hx45g" class="googlePlus"><i class="fa fa-youtube"></i></a></li>
+                        <li><a href="https://www.facebook.com/vokanesia" class="facebook" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="https://www.instagram.com/vokanesia.id" class="instagram" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                        <li><a href="https://twitter.com/vokanesia" class="twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="https://www.youtube.com/channel/UCycepOpin1oi0tDET4Hx45g" class="googlePlus" target="_blank"><i class="fa fa-youtube"></i></a></li>
                         </li>
 
                     </ul>
