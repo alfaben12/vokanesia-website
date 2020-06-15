@@ -10,16 +10,11 @@ use App\Models\Cart;
 
 use Midtrans;
 
-use Validator;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\CustomerLibrary;
-use App\Models\Coupon;
-use League\Flysystem\Filesystem;
-use Illuminate\Support\Facades\Storage;
-use Telegram\Bot\Laravel\Facades\Telegram;
-use Telegram\Bot\FileUpload\InputFile;
 
+use App\Models\Coupon;
 class PaymentController extends Controller
 {
 
@@ -159,8 +154,7 @@ class PaymentController extends Controller
         
         try {
             // Get Snap Payment Page URL
-        //   $paymentUrl = Midtrans\Snap::createTransaction($params)->redirect_url;
-          $paymentUrl = url('customers/payment/'. $invoice);
+          $paymentUrl = Midtrans\Snap::createTransaction($params)->redirect_url;
           
           // Redirect to Snap Payment Page
           return response()->json([
@@ -232,48 +226,6 @@ class PaymentController extends Controller
             'status' => 'success',
             'message' => 'success'
         ], 200);
-    }
-
-    public function accept_or_decline_payment(Request $request, $type, $id, $invoice)
-    {
-        $getOrder = Order::where(['id' => $id, 'invoice' => $invoice])->first();
-        if($getOrder){
-            if($getOrder->status != 'pending'){
-                return response()->json([
-                    'status' => $getOrder->status,
-                    'message' => 'Invoice sudah di verifikasi pada '. $getOrder->updated_at,
-                ], 200);
-            }else{
-                if($type == 'accept')
-                {
-                    if($getOrder)
-                    {
-                        Order::find($getOrder->id)->update(['status' => 'success']);
-
-                        foreach($getOrder->getOrderDetails() as $row)
-                        {
-                            $cLibraryInput = array(
-                                'customer_id' => $row->customer_id,
-                                'produk_id' => $row->produk_id,
-                                'type' => $row->type
-                            );
-
-                            CustomerLibrary::firstOrCreate($cLibraryInput);
-                            Cart::where('produk_id', $row->produk_id)->delete();
-                        }
-                    }
-                }else if($type == 'decline')
-                {
-                    Order::find(['id' => $getOrder->id, 'invoice' => $invoice])->update(['status' => 'failed']);
-                }
-
-                return response()->json([
-                    'status' => $type,
-                    'message' => 'Invoice berhasil di verifikasi'
-                ], 200);
-            }
-        }
-
     }
     
 }

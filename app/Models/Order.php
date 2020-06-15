@@ -12,8 +12,7 @@ class Order extends Model
         'gross_amount',
         'real_amount',
         'coupon_id',
-        'status',
-        'file_proof'
+        'status'
     ];
 
     public function getCustomerDetails()
