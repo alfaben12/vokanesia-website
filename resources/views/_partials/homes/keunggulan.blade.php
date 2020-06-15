@@ -63,6 +63,33 @@
                     <p>Bekerjasama dan terintegritas dengan puluhan perusahaan nasional, multinasional baik dalam maupun luar negeri.</p>
                 </div><!-- .service-info-block END -->
             </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="service-info-block">
+                    <div class="info-block-header">
+                        <img src="assets/images/service-info-icon-4.png" alt="">
+                    </div>
+                    <h3 class="service-info-title">Pembelajaran Daring</h3>
+                    <p>Pembelajaran tersedia dalam bentuk video pembelajaran, kelas online, e-book, modul, virtual reality, juga tersedia pelatihan offline.</p>
+                </div><!-- .service-info-block END -->
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="service-info-block">
+                    <div class="info-block-header">
+                        <img src="assets/images/service-info-icon-5.png" alt="">
+                    </div>
+                    <h3 class="service-info-title">Kesempatan Bekerja</h3>
+                    <p>Memberikan Kesempatan bekerja di Perusahaan Nasional dan perusahaan Asing.</p>
+                </div><!-- .service-info-block END -->
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="service-info-block">
+                    <div class="info-block-header">
+                        <img src="assets/images/service-info-icon-6.png" alt="">
+                    </div>
+                    <h3 class="service-info-title">Terhubung dengan Perguruan tinggi</h3>
+                    <p>Terhubung dengan Perguruan tinggi bagi yang ingin melanjutkan pendidikan ke tingkat akademik.</p>
+                </div><!-- .service-info-block END -->
+            </div>
         </div><!-- .row .service-block-group END -->
     </div><!-- .container END -->
 </section><!-- end service info block section -->
