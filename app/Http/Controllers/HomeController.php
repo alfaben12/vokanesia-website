@@ -25,6 +25,6 @@ class HomeController extends Controller
     public function index()
     {
         $data_pdf = PdfProduk::limit(3)->get();
-        return view('home', ['pdfs' => $data_pdf]);
+        return view('home')->with(['pdfs' => $data_pdf]);
     }
 }
