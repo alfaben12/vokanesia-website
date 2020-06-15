@@ -491,7 +491,7 @@ class RegisterController extends Controller
           </body>
         </html>
         ';
-        $recipient = 'zrav420@gmail.com'; //penerima email
+        $recipient = $request->input('email'); //penerima email
         $params = [
         'from_name' => $from_name,
         'from_email' => $from_email,
