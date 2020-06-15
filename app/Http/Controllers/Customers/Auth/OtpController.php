@@ -14,7 +14,6 @@ class OtpController extends Controller
     {
         $user = Auth::user();
         try {
-          $this->sendOtp($user->id);
           return view('customers.otp.index')->with('user');
         } catch (\Exception $e) {
           return view('customers.otp.index')->with([
