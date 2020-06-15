@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PdfProduk;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,7 +13,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -24,7 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data_pdf = PdfProduk::limit(3)->get();
-        return view('home', ['pdfs' => $data_pdf]);
+        return view('home');
     }
 }
