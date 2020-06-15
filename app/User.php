@@ -2,11 +2,11 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends \TCG\Voyager\Models\User
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
@@ -16,7 +16,7 @@ class User extends \TCG\Voyager\Models\User
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role_id', 'avatar',
     ];
 
     /**
@@ -37,11 +37,6 @@ class User extends \TCG\Voyager\Models\User
         'email_verified_at' => 'datetime',
     ];
 
-    public function scopeMentorAndSeller($query)
-    {
-        return $query->whereIn('role_id', [3,4]);
-    }
-
     public function scopeSomeMentors($query)
     {
         return $query->where('role_id', 3);
@@ -50,5 +45,14 @@ class User extends \TCG\Voyager\Models\User
     public function scopeSomeSeller($query)
     {
         return $query->where('role_id', 4);
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
