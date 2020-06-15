@@ -1,5 +1,3 @@
-
-
 <h4>Top E-Book</h4>
 <div class="row service-block-group">
 @foreach ($pdfs as $produk)
