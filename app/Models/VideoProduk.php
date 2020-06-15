@@ -38,7 +38,7 @@ class VideoProduk extends Model
         if(!isset($dest[0]->download_link)){
             $dest = '';
         }else{
-            $dest = str_replace('\\', '/', $dest[0]->download_link);
+            $dest = str_replace('\\', '/', $dest->download_link);
         }
         return $dest;
     }
