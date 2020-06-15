@@ -6,7 +6,7 @@
         <div class="col-md-6">
           <ul class="xs-top-bar-info">
             <li>
-              <p><a href="tel:0341-8205510"><i class="icon icon-phone"></i>0341-8205510</a></p>
+              <p><a href="tel:0821 3999 1353"><i class="icon icon-phone"></i>0821 3999 1353</a></p>
             </li>
             <li>
               <a href="mailto:halo@vokanesia.id"><i class="icon icon-email"></i>halo@vokanesia.id</a>
