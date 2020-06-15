@@ -5,8 +5,9 @@
                 <div class="col-md-6 col-lg-3">
                     <div class="footer-widget">
                         <h4 class="xs-content-title">Vokanesia</h4>
-                        <p><strong>Vokanesia.id</strong></p>
-                        <p>Vokanesia adalah edu-tech vokasi terbaik di indonesia.</p>
+                        <ul class="xs-lsit">
+                            <li><a href="#">Vokanesia adalah edu-tech vokasi terbaik di indonesia.</a></li>
+                        </ul>
                     </div><!-- .footer-widget END -->
                 </div>
                 <div class="col-md-6 col-lg-3">
