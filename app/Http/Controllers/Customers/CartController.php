@@ -8,6 +8,7 @@ use App\User;
 
 use Auth;
 use App\Models\Cart;
+use App\Models\Order;
 class CartController extends Controller
 {
     /**
@@ -17,6 +18,14 @@ class CartController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        $order = Order::where(['customer_id' => $user->id])->orderBy('id', 'desc')->first();
+        if($order){
+            if($order->status != 'pending'){
+                return redirect('/?message=payment_required');
+            }
+        }
+        
         $user = Auth::user();
         $get = Cart::where(['customer_id' => $user->id])->get();
         $data = [];
@@ -53,6 +62,17 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
+        $getOrder = Order::where(['customer_id' => $user->id])->orderBy('id', 'desc')->first();
+        if($getOrder){
+            if($getOrder->status != 'pending'){
+                return response()->json([
+                    'status' => 'fail',
+                    'message' => 'Pembayaran belum diselesaikan',
+                    'order' => $getOrder
+                ], 402);
+            }
+        }
+
         $data = Cart::firstOrCreate([
             'produk_id' => $request->input('produk_id'),
             'customer_id' => $user->id,
