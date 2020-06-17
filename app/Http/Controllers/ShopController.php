@@ -18,7 +18,7 @@ class ShopController extends Controller
 
         $banner = Banner::get();
         if($type == 'ebook' || $type == 'pdf'){
-            $type = 'pdf';
+            $type = 'ebook';
             $dataProduk = PdfProduk::all("id", "name", "harga", "cover", "slug", "kategori_id")->sortByDesc('created_at');
         }else if($type == 'video'){
             $type = 'video';
@@ -42,14 +42,14 @@ class ShopController extends Controller
     {
       //
       if (!$request->filled("q")) {
-        return redirect()->route("shop.index", ['type'])->withError("Masukkan kata kunci pencarian anda");
+        return redirect()->route("shop.index", ['type' => $type])->withError("Masukkan kata kunci pencarian anda");
       }
-      $search = $request->q;
+      $search = preg_replace('@<(\w+)\b.*?>.*?</\1>@si', '', $request->q);
       if($type == 'video'){
         $type = 'video';
         $dataProduk = CourseProduk::where("name", "like", "%$search%")->get(["id", "harga", "name", "cover", "kategori_id", "slug"])->sortByDesc('created_at');
       }else if($type == 'ebook' || $type == 'pdf'){
-        $type = 'pdf';
+        $type = 'ebook';
         $dataProduk = PdfProduk::where("name", "like", "%$search%")->get(["id", "name", "harga", "cover", "kategori_id", "slug"])->sortByDesc('created_at');
       }else{
         $dataProduk = [];
@@ -75,6 +75,7 @@ class ShopController extends Controller
       }
       if($type == 'video')
       {
+        $type = 'video';
         $produk = CourseProduk::where('slug', $title)->first();
         $oderdetails = OrderDetail::where
         ([
@@ -89,6 +90,7 @@ class ShopController extends Controller
         }
       }else if($type == 'pdf')
       {
+        $type = 'ebook';
         $produk = PdfProduk::where('slug', $title)->first();
         $oderdetails = OrderDetail::where
         ([

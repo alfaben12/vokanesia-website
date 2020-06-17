@@ -63,8 +63,6 @@ class PaymentController extends Controller
             ], 404);
         }
 
-        $file = $request->file('file');
-        $destination_path = 'files';
         $path = $request->file('file')->store('file_proof/'. date('F'). date('Y'), 'cloud_kilat');
 
         $cloud_kilat_path = Storage::disk('cloud_kilat')->url($path);
