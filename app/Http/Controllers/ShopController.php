@@ -18,7 +18,7 @@ class ShopController extends Controller
 
         $banner = Banner::get();
         if($type == 'ebook' || $type == 'pdf'){
-            $type = 'ebook';
+            $type = 'pdf';
             $dataProduk = PdfProduk::all("id", "name", "harga", "cover", "slug", "kategori_id")->sortByDesc('created_at');
         }else if($type == 'video'){
             $type = 'video';
@@ -50,7 +50,7 @@ class ShopController extends Controller
         $type = 'video';
         $dataProduk = CourseProduk::where("name", "like", "%$search%")->get(["id", "harga", "name", "cover", "kategori_id", "slug"])->sortByDesc('created_at');
       }else if($type == 'ebook' || $type == 'pdf'){
-        $type = 'ebook';
+        $type = 'pdf';
         $dataProduk = PdfProduk::where("name", "like", "%$search%")->get(["id", "name", "harga", "cover", "kategori_id", "slug"])->sortByDesc('created_at');
       }else{
         $dataProduk = [];
@@ -92,7 +92,7 @@ class ShopController extends Controller
         }
       }else if($type == 'pdf')
       {
-        $type = 'ebook';
+        $type = 'pdf';
         $produk = PdfProduk::where('slug', $title)->first();
         $oderdetails = OrderDetail::where
         ([

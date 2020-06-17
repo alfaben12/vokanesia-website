@@ -3,7 +3,7 @@
 @section('style')
 
 @endsection
-@section('title', 'Toko ' . $type)
+@section('title', 'Toko Ebook')
 @section('body')
   @if (($message = Session::get('success')) || ($message = Session::get('error')))
     <section class="xs-section-padding py-0 mb-5">
@@ -116,7 +116,7 @@
         </div>
         <ul class="pagination justify-content-center">
           @php
-          $jumlah_page = ceil($produk_list->count() / 9);
+          $jumlah_page = ceil($produk_list_2->count() / 9);
           $jumlah_number = 3;
           $start_number = ($page > $jumlah_number)? $page - $jumlah_number : 1;
           $end_number = ($page < ($jumlah_page - $jumlah_number))? $page + $jumlah_number : $jumlah_page;
