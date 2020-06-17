@@ -32,6 +32,7 @@ class ShopController extends Controller
           $page = $_GET["page"];
         }
         return view('shop.index')->with([
+        'produk_list_2' => $dataProduk,
             'produk_list' => $dataProduk->forPage($page, 9),
             'page' => $page,
             'type' => $type
@@ -60,6 +61,7 @@ class ShopController extends Controller
         $page = $_GET["page"];
       }
       return view('shop.index')->with([
+        'produk_list_2' => $dataProduk,
         'produk_list' => $dataProduk->forPage($page, 9),
         'page' => $page,
         'search' => $search,
