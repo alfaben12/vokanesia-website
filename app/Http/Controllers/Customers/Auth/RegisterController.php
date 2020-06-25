@@ -45,7 +45,7 @@ class RegisterController extends Controller
     if ($validator->passes()) {
       $randOtp = rand(111111, 999999);
       try {
-        $emailSend = $this->sendEmailOTP($request, $randOtp);
+        $emailSend = $this->sendSmsOTP($request, $randOtp);
         if(!$emailSend){
           return response()->json([
             'status' => 'failed',
@@ -511,5 +511,45 @@ class RegisterController extends Controller
       }catch (Exception $e){
           return false;
       }
+  }
+
+  function sendSmsOTP($request, $otp){
+    ob_start();
+		// setting 
+		$apikey      = '6b58a94d445a9f96f14fec2d59b3ba87'; // api key 
+		$urlendpoint = 'http://sms114.xyz/sms/api_sms_otp_send_json.php'; // url endpoint api
+		$callbackurl = ''; // url callback get status sms 
+
+		// create header json  
+		$senddata = array(
+			'apikey' => $apikey,  
+			'callbackurl' => $callbackurl, 
+			'datapacket'=>array()
+		);
+
+		// create detail data json 
+		// data 1
+		$number = '62'. $request->no_hp;
+		$message = 'Hi '.$request->f_name.',%0a'.$otp.' adalah kode untuk verifikasi akun Vokanesia.id kamu.%0aDO NOT GIVE IT TO ANYONE';
+		array_push($senddata['datapacket'],array(
+			'number' => trim($number),
+			'message' => $message
+		));
+		// sending  
+		$data=json_encode($senddata);
+		$curlHandle = curl_init($urlendpoint);
+		curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curlHandle, CURLOPT_HTTPHEADER, array(
+					'Content-Type: application/json',
+					'Content-Length: ' . strlen($data))
+		);
+		curl_setopt($curlHandle, CURLOPT_TIMEOUT, 30);
+		curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 30);
+		$respon = curl_exec($curlHandle);
+		curl_close($curlHandle);
+		header('Content-Type: application/json');
+		return true;
   }
 }
